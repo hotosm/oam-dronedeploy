@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Facebook from './Facebook';
 import { getToken } from '../util/authUtils';
 import { checkTokenStatus } from '../actions/authActions';
+import { testCall } from '../actions/catalogActions';
 
 class Container extends React.Component {
   constructor(props) {
@@ -26,7 +27,11 @@ class Container extends React.Component {
     const arrowSrc = this.state.expanded ? 'arrow-up.svg' : 'arrow-down.svg';
     let authenticatedSection = null;
     if (this.props.isAuthenticated) {
-      authenticatedSection = <span>You are authenticated</span>;
+      authenticatedSection = (
+        <div className="col-4">
+          <button onClick={this.props.testCall}>Test Call</button>
+        </div>
+      );
     } else {
       authenticatedSection = <Facebook />;
     }
@@ -70,12 +75,16 @@ class Container extends React.Component {
 
 Container.propTypes = {
   isAuthenticated: propTypes.bool.isRequired,
-  checkTokenStatus: propTypes.func.isRequired
+  checkTokenStatus: propTypes.func.isRequired,
+  testCall: propTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
   checkTokenStatus: (tokenTime) => {
     dispatch(checkTokenStatus(tokenTime));
+  },
+  testCall: () => {
+    dispatch(testCall());
   }
 });
 

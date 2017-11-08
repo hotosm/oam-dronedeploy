@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import auth from '../reducers/auth';
+import apiMiddleware from './apiMiddleware';
 
-//const reducer = () => {};
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk, apiMiddleware)(createStore);
 
 export default function configureStore(initialState) {
   const store = createStoreWithMiddleware(
