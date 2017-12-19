@@ -1,11 +1,14 @@
+/* global DroneDeploy */
 import React from 'react';
 import propTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import { toJS } from './toJS';
 import Facebook from './Facebook';
 import { getToken } from '../util/authUtils';
 import { checkTokenStatus } from '../actions/authActions';
 import { testCall } from '../actions/catalogActions';
+import setDronedeployAPI from '../actions/droneDeployActions';
 
 class Container extends React.Component {
   constructor(props) {
@@ -17,6 +20,9 @@ class Container extends React.Component {
     const token = getToken();
     const currentTime = new Date().getTime() / 1000;
     this.props.checkTokenStatus({ token, currentTime });
+    new DroneDeploy({ version: 1 }).then((dronedeployApi) => {
+      this.props.setDronedeployAPI(dronedeployApi);
+    });
   }
 
   render() {
@@ -33,7 +39,7 @@ class Container extends React.Component {
         </div>
       );
     } else {
-      authenticatedSection = <Facebook />;
+      authenticatedSection = <Facebook dronedeployApi={this.props.dronedeployApi} />;
     }
     return (
       <div className="container expand-container">
@@ -76,7 +82,8 @@ class Container extends React.Component {
 Container.propTypes = {
   isAuthenticated: propTypes.bool.isRequired,
   checkTokenStatus: propTypes.func.isRequired,
-  testCall: propTypes.func.isRequired
+  testCall: propTypes.func.isRequired,
+  dronedeployApi: propTypes.shape({})
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -85,11 +92,15 @@ const mapDispatchToProps = dispatch => ({
   },
   testCall: () => {
     dispatch(testCall());
+  },
+  setDronedeployAPI: (api) => {
+    dispatch(setDronedeployAPI(api));
   }
 });
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.get('isAuthenticated')
+  isAuthenticated: state.auth.get('isAuthenticated'),
+  dronedeployApi: state.dronedeploy.get('dronedeployApi')
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect(mapStateToProps, mapDispatchToProps)(toJS(Container));

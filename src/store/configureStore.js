@@ -1,13 +1,14 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import auth from '../reducers/auth';
+import dronedeploy from '../reducers/dronedeploy';
 import apiMiddleware from './apiMiddleware';
 
 const createStoreWithMiddleware = applyMiddleware(thunk, apiMiddleware)(createStore);
 
 export default function configureStore(initialState) {
   const store = createStoreWithMiddleware(
-    combineReducers({ auth }),
+    combineReducers({ auth, dronedeploy }),
     initialState
   );
 
