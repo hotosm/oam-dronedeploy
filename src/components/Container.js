@@ -20,6 +20,8 @@ class Container extends React.Component {
     const token = getToken();
     const currentTime = new Date().getTime() / 1000;
     this.props.checkTokenStatus({ token, currentTime });
+    window.addEventListener('message', (e) => {
+    });
     new DroneDeploy({ version: 1 }).then((dronedeployApi) => {
       this.props.setDronedeployAPI(dronedeployApi);
     });

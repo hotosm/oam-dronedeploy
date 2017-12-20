@@ -3,8 +3,6 @@ import url from 'url';
 import queryString from 'query-string';
 import tokenKey from '../constants/idToken';
 
-export const currentUrl = window.location.href;
-
 export const getToken = () => {
   const urlObject = url.parse(window.location.href);
   const storedToken = localStorage.getItem(tokenKey);
