@@ -8,10 +8,10 @@ const initialStateObject = {
 
 const initialState = immutable.fromJS(initialStateObject);
 
-const tokenIsVaild = (tokenTime) => {
-  if (tokenTime.token) {
-    const decoded = jwt.decode(tokenTime.token);
-    const isValid = decoded.exp > tokenTime.currentTime;
+const tokenIsVaild = (token, currentTime) => {
+  if (token) {
+    const decoded = jwt.decode(token);
+    const isValid = decoded.exp > currentTime;
     return isValid;
   }
   return false;
@@ -20,7 +20,8 @@ const tokenIsVaild = (tokenTime) => {
 export default function auth(state = initialState, action) {
   switch (action.type) {
     case types.CHECK_TOKEN_STATUS:
-      const isAuthenticated = tokenIsVaild(action.tokenTime);
+      const { token, currentTime } = action.payload;
+      const isAuthenticated = tokenIsVaild(token, currentTime);
       return state.merge({ isAuthenticated });
 
     default:

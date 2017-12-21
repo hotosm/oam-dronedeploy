@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { toJS } from './toJS';
 import Facebook from './Facebook';
-import { getToken } from '../util/authUtils';
+import { getToken, setToken } from '../util/authUtils';
 import { checkTokenStatus } from '../actions/authActions';
 import { testCall } from '../actions/catalogActions';
 import setDronedeployAPI from '../actions/droneDeployActions';
@@ -17,10 +17,15 @@ class Container extends React.Component {
   }
 
   componentDidMount() {
-    const token = getToken();
+    const storedToken = getToken();
     const currentTime = new Date().getTime() / 1000;
-    this.props.checkTokenStatus({ token, currentTime });
+    this.props.checkTokenStatus(storedToken, currentTime);
     window.addEventListener('message', (e) => {
+      if (e.data.token) {
+        const { data: { token } } = e;
+        setToken(token);
+        this.props.checkTokenStatus(token, currentTime);
+      }
     });
     new DroneDeploy({ version: 1 }).then((dronedeployApi) => {
       this.props.setDronedeployAPI(dronedeployApi);
@@ -41,7 +46,7 @@ class Container extends React.Component {
         </div>
       );
     } else {
-      authenticatedSection = <Facebook dronedeployApi={this.props.dronedeployApi} />;
+      authenticatedSection = <Facebook />;
     }
     return (
       <div className="container expand-container">
@@ -89,8 +94,8 @@ Container.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  checkTokenStatus: (tokenTime) => {
-    dispatch(checkTokenStatus(tokenTime));
+  checkTokenStatus: (token, currentTime) => {
+    dispatch(checkTokenStatus(token, currentTime));
   },
   testCall: () => {
     dispatch(testCall());

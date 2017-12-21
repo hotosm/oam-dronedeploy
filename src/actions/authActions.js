@@ -1,8 +1,11 @@
 import * as types from '../constants/action_types';
 
-export function checkTokenStatus(tokenTime) {
+export function checkTokenStatus(token, currentTime) {
   return {
     type: types.CHECK_TOKEN_STATUS,
-    tokenTime
+    payload: {
+      token,
+      currentTime
+    }
   };
 }

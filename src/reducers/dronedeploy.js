@@ -10,7 +10,8 @@ const initialState = immutable.fromJS(initialStateObject);
 export default function dronedeploy(state = initialState, action) {
   switch (action.type) {
     case types.SET_DRONE_DEPLOY_API:
-      return state.merge({ dronedeployApi: action.api });
+      const { api: dronedeployApi } = action.payload;
+      return state.merge({ dronedeployApi });
 
     default:
       return state;

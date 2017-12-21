@@ -8,7 +8,7 @@ const authUrl = `${facebookUrl}client_id=${clientId}&response_type=token&redirec
 
 const Facebook = props => (
   <div
-    onClick={() => { props.dronedeployApi.Link.open(authUrl); }}
+    onClick={() => { window.open(authUrl); }}
     className="col-4 login"
   >
     <span className="lead vert-center">
@@ -21,7 +21,5 @@ const Facebook = props => (
   </div>
 );
 
-
 export default Facebook;
 
-//onClick={() => { props.dronedeployApi.Link.open(authUrl); }}
