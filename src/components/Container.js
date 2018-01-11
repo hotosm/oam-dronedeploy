@@ -1,4 +1,4 @@
-/* global DroneDeploy */
+/* global DroneDeploy, window */
 import React from 'react';
 import propTypes from 'prop-types';
 import classNames from 'classnames';
@@ -7,8 +7,7 @@ import { toJS } from './toJS';
 import Facebook from './Facebook';
 import { getToken, setToken } from '../util/authUtils';
 import { checkTokenStatus } from '../actions/authActions';
-import { testCall } from '../actions/catalogActions';
-import setDronedeployAPI from '../actions/droneDeployActions';
+import setDronedeployAPI, { exportImage } from '../actions/droneDeployActions';
 
 class Container extends React.Component {
   constructor(props) {
@@ -42,7 +41,7 @@ class Container extends React.Component {
     if (this.props.isAuthenticated) {
       authenticatedSection = (
         <div className="col-4">
-          <button onClick={this.props.testCall}>Test Call</button>
+          <button onClick={this.props.exportImage}>Test Call</button>
         </div>
       );
     } else {
@@ -89,16 +88,16 @@ class Container extends React.Component {
 Container.propTypes = {
   isAuthenticated: propTypes.bool.isRequired,
   checkTokenStatus: propTypes.func.isRequired,
-  testCall: propTypes.func.isRequired,
-  dronedeployApi: propTypes.shape({})
+  exportImage: propTypes.func.isRequired,
+  setDronedeployAPI: propTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
   checkTokenStatus: (token, currentTime) => {
     dispatch(checkTokenStatus(token, currentTime));
   },
-  testCall: () => {
-    dispatch(testCall());
+  exportImage: () => {
+    dispatch(exportImage());
   },
   setDronedeployAPI: (api) => {
     dispatch(setDronedeployAPI(api));
@@ -107,7 +106,6 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.get('isAuthenticated'),
-  dronedeployApi: state.dronedeploy.get('dronedeployApi')
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(toJS(Container));
