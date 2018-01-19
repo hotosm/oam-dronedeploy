@@ -8,6 +8,7 @@ import Facebook from './Facebook';
 import { getToken, setToken } from '../util/authUtils';
 import { checkTokenStatus } from '../actions/authActions';
 import setDronedeployAPI, { exportImage } from '../actions/droneDeployActions';
+import Form from './Form';
 
 class Container extends React.Component {
   constructor(props) {
@@ -40,9 +41,7 @@ class Container extends React.Component {
     let authenticatedSection = null;
     if (this.props.isAuthenticated) {
       authenticatedSection = (
-        <div className="col-4">
-          <button onClick={this.props.exportImage}>Test Call</button>
-        </div>
+        <Form exportImage={this.props.exportImage} />
       );
     } else {
       authenticatedSection = <Facebook />;
@@ -76,9 +75,7 @@ class Container extends React.Component {
           </div>
         </div>
         <div className={expandSection}>
-          <div className="row">
-            {authenticatedSection}
-          </div>
+          {authenticatedSection}
         </div>
       </div>
     );
@@ -96,8 +93,8 @@ const mapDispatchToProps = dispatch => ({
   checkTokenStatus: (token, currentTime) => {
     dispatch(checkTokenStatus(token, currentTime));
   },
-  exportImage: () => {
-    dispatch(exportImage());
+  exportImage: (formData) => {
+    dispatch(exportImage(formData));
   },
   setDronedeployAPI: (api) => {
     dispatch(setDronedeployAPI(api));

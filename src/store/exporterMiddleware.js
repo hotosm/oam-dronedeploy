@@ -32,15 +32,18 @@ const getDateRange = (images) => {
   return range;
 };
 
-const buildWebHookUrl = (sensor, startDate, endDate) => {
-  const api = 'https://webhook.site/41ff04d5-51ea-4391-a44b-fcec545ba267';
+const buildWebHookUrl = (sensor, startDate, endDate, title, provider, tags) => {
+  const api = `${process.env.CATALOG_API_URL}/dronedeploy`;
   const token = getToken();
   const webHookUrl = buildUrl(api, {
     queryParams: {
       authorization: token,
+      sensor: encodeURIComponent(sensor),
       acquisition_start: encodeURIComponent(startDate.toISOString()),
       acquisition_end: encodeURIComponent(endDate.toISOString()),
-      sensor,
+      title: encodeURIComponent(title),
+      provider: encodeURIComponent(provider),
+      tags: encodeURIComponent(tags)
     }
   });
   return webHookUrl;
@@ -69,7 +72,9 @@ const exporterMiddleware = store => next => (action) => {
     .then(plan => dronedeployApi.Images.get(plan))
     .then(getDateRange)
     .then((range) => {
-      const url = buildWebHookUrl(camera, range.min, range.max);
+      const { title, provider, tags } = action.payload;
+      const url =
+        buildWebHookUrl(camera, range.min, range.max, title, provider, tags);
       const exportOptions = {
         layer: 'Orthomosaic',
         email: [email],

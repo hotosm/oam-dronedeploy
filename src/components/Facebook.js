@@ -7,6 +7,7 @@ const facebookUrl = 'https://www.facebook.com/v2.3/dialog/oauth?';
 const authUrl = `${facebookUrl}client_id=${clientId}&response_type=token&redirect_uri=${catalogAPI}`;
 
 const Facebook = props => (
+  <div className="row">
   <div
     onClick={() => { window.open(authUrl); }}
     className="col-4 login"
@@ -18,6 +19,7 @@ const Facebook = props => (
         src="facebook_logo.svg"
       />Login With Facebook
     </span>
+  </div>
   </div>
 );
 

@@ -9,9 +9,9 @@ export default function setDronedeployAPI(api) {
   };
 }
 
-export function exportImage(image) {
+export function exportImage(payload) {
   return {
     type: types.EXPORT_IMAGE,
-    image
+    payload
   };
 }
