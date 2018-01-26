@@ -7,7 +7,8 @@ import { toJS } from './toJS';
 import Facebook from './Facebook';
 import { getToken, setToken } from '../util/authUtils';
 import { checkTokenStatus } from '../actions/authActions';
-import setDronedeployAPI, { exportImage } from '../actions/droneDeployActions';
+import setDronedeployAPI, { exportImage as exportImageAction }
+  from '../actions/droneDeployActions';
 import Form from './Form';
 
 class Container extends React.Component {
@@ -33,15 +34,16 @@ class Container extends React.Component {
   }
 
   render() {
+    const { isAuthenticated, exportImage } = this.props;
     const expandSection = classNames(
       'expand-section',
       { hidden: !this.state.expanded }
     );
     const arrowSrc = this.state.expanded ? 'arrow-up.svg' : 'arrow-down.svg';
-    let authenticatedSection = null;
-    if (this.props.isAuthenticated) {
+    let authenticatedSection;
+    if (isAuthenticated) {
       authenticatedSection = (
-        <Form exportImage={this.props.exportImage} />
+        <Form exportImage={exportImage} />
       );
     } else {
       authenticatedSection = <Facebook />;
@@ -94,7 +96,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(checkTokenStatus(token, currentTime));
   },
   exportImage: (formData) => {
-    dispatch(exportImage(formData));
+    dispatch(exportImageAction(formData));
   },
   setDronedeployAPI: (api) => {
     dispatch(setDronedeployAPI(api));

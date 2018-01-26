@@ -19,10 +19,11 @@ const tokenIsVaild = (token, currentTime) => {
 
 export default function auth(state = initialState, action) {
   switch (action.type) {
-    case types.CHECK_TOKEN_STATUS:
+    case types.CHECK_TOKEN_STATUS: {
       const { token, currentTime } = action.payload;
       const isAuthenticated = tokenIsVaild(token, currentTime);
       return state.merge({ isAuthenticated });
+    }
 
     default:
       return state;

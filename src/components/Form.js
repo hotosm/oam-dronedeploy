@@ -64,7 +64,7 @@ class Form extends React.Component {
         <div className="row">
           <div className="col-4">
             <button
-              onClick={() => { this.props.exportImage(this.state); }}
+              onClick={() => { exportImage(this.state); }}
             >Export Orthomosaic
             </button>
           </div>
@@ -73,5 +73,9 @@ class Form extends React.Component {
     );
   }
 }
+
+Form.propTypes = {
+  exportImage: propTypes.func.isRequired
+};
 
 export default Form;
