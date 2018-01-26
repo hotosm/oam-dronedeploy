@@ -11,7 +11,7 @@ import setDronedeployAPI, { exportImage as exportImageAction }
   from '../actions/droneDeployActions';
 import Form from './Form';
 
-class Container extends React.Component {
+export class Container extends React.Component {
   constructor(props) {
     super(props);
     this.state = { expanded: false };
