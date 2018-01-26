@@ -1,16 +1,14 @@
 {
   "name": "dronedeploy-oam",
   "version": "1.0.0",
-  "description": "DroneDeploy App Market Plugin for OAM.",
-  "main": "index.js",
+  "description": "OAM export application for the DroneDeploy marketplace",
+  "main": "index.html",
   "author": "Sean Harkins",
   "license": "MIT",
   "scripts": {
+    "build": "yarn run bundle:css & NODE_ENV=production browserify src/app.js -t [ babelify --presets [ es2015 react ] ] -g localenvify -g uglifyify -o static/bundle.js",
     "watch": "npm run bundle:css & npm run watch:bundle",
-    "watch:reload": "npm run bundle:css & npm run watch:server & npm run watch:bundle:reload & wait",
-    "watch:server": "nodemon --exec babel-node --ignore static/bundle.js -- server.js",
-    "watch:bundle": "watchify src/app.js -v -t babelify -d -g [ localenvify --envfile .env.dev ] -o static/bundle.js",
-    "watch:bundle:reload": "watchify src/app.js -v -t babelify -d -g [ localenvify --envfile .env.dev ] -p livereactload -o static/bundle.js",
+    "watch:bundle": "NODE_ENV=development watchify src/app.js -v -t [ babelify --presets [ es2015 react ] ] -d -g [ localenvify --envfile .env.dev ] -o static/bundle.js",
     "bundle:css": "cleancss -o ./static/app.min.css ./css/*.css"
   },
   "devDependencies": {
@@ -27,7 +25,6 @@
     "eslint-plugin-jsx-a11y": "6.0.2",
     "eslint-plugin-react": "7.4.0",
     "express": "^4.16.2",
-    "livereactload": "next",
     "localenvify": "^1.0.1",
     "nodemon": "^1.12.1",
     "smokestack": "^3.4.1",
@@ -43,7 +40,6 @@
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-hot-loader": "^3.1.1",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
