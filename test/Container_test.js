@@ -45,6 +45,7 @@ test('Container', (t) => {
 test('Container', (t) => {
   const api = 'api';
   let dronedeploy;
+  // DroneDeploy constructor
   window.DroneDeploy = function () {
     dronedeploy = Promise.resolve(api);
     return dronedeploy;

@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import test from 'tape';
 import ContainerTest from './Container_test';
+import authTest from './auth_test';
 
 test('Shutdown', (t) => {
   t.pass('Shutting down');
