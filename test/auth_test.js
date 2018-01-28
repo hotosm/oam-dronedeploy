@@ -2,7 +2,7 @@ import test from 'tape';
 import * as types from '../src/constants/action_types';
 import auth from '../src/reducers/auth';
 
-test('auth', (t) => {
+test('auth returns unauthenticated with null token', (t) => {
   const action = {
     payload: {
       token: null
@@ -13,9 +13,9 @@ test('auth', (t) => {
   const isAuthenticated = state.get('isAuthenticated');
   t.false(isAuthenticated);
   t.end();
-}, 'Returns unauthenticated with null token');
+});
 
-test('auth', (t) => {
+test('auth returns authenticated for token with valid expiration', (t) => {
   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIxNTE3MDg2NTU3In0.2fg8HwsyXDeqRj_0dzDNCcoAVaCur-gcLwq9toufHbo';
   const currentTime = 1517079357;
   const action = {
@@ -29,4 +29,4 @@ test('auth', (t) => {
   const isAuthenticated = state.get('isAuthenticated');
   t.true(isAuthenticated);
   t.end();
-}, 'Returns authenticated for token with valid expiration');
+});

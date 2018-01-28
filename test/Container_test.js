@@ -28,21 +28,21 @@ const setup = (isAuthenticated) => {
   return { wrapper, checkTokenStatus, setDronedeployAPI };
 };
 
-test('Container', (t) => {
+test('Container renders login when the user is not authenticated', (t) => {
   const { wrapper } = setup(false);
   t.equals(wrapper.find(Facebook).length, 1);
   t.equals(wrapper.find(Form).length, 0);
   t.end();
-}, 'Renders the Facebook login when the user is not authenticated');
+});
 
-test('Container', (t) => {
+test('Container renders the Form when the user is authenticated', (t) => {
   const { wrapper } = setup(true);
   t.equals(wrapper.find(Form).length, 1);
   t.equals(wrapper.find(Facebook).length, 0);
   t.end();
-}, 'Renders the Form when the user is authenticated');
+});
 
-test('Container', (t) => {
+test('Container componentDidMount runs necessary setup', (t) => {
   const api = 'api';
   let dronedeploy;
   // DroneDeploy constructor
@@ -60,4 +60,4 @@ test('Container', (t) => {
     t.ok(setDronedeployAPI.calledWith(api));
     t.end();
   });
-}, 'componentDidMount calls checkTokenStatus and creates new DroneDeploy API');
+});
