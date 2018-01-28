@@ -1,5 +1,4 @@
 import test from 'tape';
-import jwt from 'jsonwebtoken';
 import * as types from '../src/constants/action_types';
 import auth from '../src/reducers/auth';
 

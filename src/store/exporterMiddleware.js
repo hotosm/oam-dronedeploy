@@ -6,12 +6,12 @@ import { checkTokenStatus } from '../actions/authActions';
 import { getToken } from '../util/authUtils';
 
 
-const getDateRange = (images) => {
+export const getDateRange = (images) => {
   const dates = images.map((image) => {
     const dateComponents = image.date_creation.$date.split(' ');
     const dateString = dateComponents[0].replace(/:/g, '-') + ':'
     + dateComponents[1];
-    const date = new Date(dateString);
+    const date = new Date(`${dateString} GMT`);
     return date;
   });
 
@@ -28,9 +28,10 @@ const getDateRange = (images) => {
     }
     return newAccum;
   }, { min: 0, max: 0 });
-
-  return range;
+  const isorange = { min: range.min.toISOString(), max: range.max.toISOString() };
+  return isorange;
 };
+
 const buildWebHookUrl = (sensor, startDate, endDate, title, provider, tags) => {
   const api = `${process.env.CATALOG_API_URL}/dronedeploy`;
   const token = getToken();
@@ -38,8 +39,8 @@ const buildWebHookUrl = (sensor, startDate, endDate, title, provider, tags) => {
     queryParams: {
       token,
       sensor: encodeURIComponent(sensor),
-      acquisition_start: encodeURIComponent(startDate.toISOString()),
-      acquisition_end: encodeURIComponent(endDate.toISOString()),
+      acquisition_start: encodeURIComponent(startDate),
+      acquisition_end: encodeURIComponent(endDate),
       title: encodeURIComponent(title),
       provider: encodeURIComponent(provider),
       tags: encodeURIComponent(tags)
@@ -83,7 +84,6 @@ const exporterMiddleware = store => next => (action) => {
       return dronedeployApi.Exporter.send(exportOptions);
     })
     .then(() => {
-      console.log('EXPORT_IMAGE_SUCCEEDED');
       next({
         type: EXPORT_IMAGE_SUCCEEDED
       });
