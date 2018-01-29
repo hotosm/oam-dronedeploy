@@ -1,5 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { succeeded } from '../constants/exportStatus';
 
 class Form extends React.Component {
   constructor(props) {
@@ -12,8 +13,25 @@ class Form extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.exportStatus === succeeded) {
+      this.setState({
+        title: '',
+        provider: '',
+        tags: ''
+      });
+    }
+  }
+
   handleChange(event) {
     this.setState({ [event.target.id]: event.target.value });
+  }
+
+  exportDisabled() {
+    if (this.state.title !== '' && this.state.provider !== '') {
+      return false;
+    }
+    return true;
   }
 
   render() {
@@ -65,6 +83,7 @@ class Form extends React.Component {
           <div className="col-4">
             <button
               onClick={() => { exportImage(this.state); }}
+              disabled={this.exportDisabled()}
             >Export Orthomosaic
             </button>
           </div>
@@ -75,7 +94,8 @@ class Form extends React.Component {
 }
 
 Form.propTypes = {
-  exportImage: propTypes.func.isRequired
+  exportImage: propTypes.func.isRequired,
+  exportStatus: propTypes.oneOf(['succeeded', 'failed', 'none']).isRequired
 };
 
 export default Form;

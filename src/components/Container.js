@@ -34,7 +34,7 @@ export class Container extends React.Component {
   }
 
   render() {
-    const { isAuthenticated, exportImage } = this.props;
+    const { isAuthenticated, exportImage, exportStatus } = this.props;
     const expandSection = classNames(
       'expand-section',
       { hidden: !this.state.expanded }
@@ -43,7 +43,7 @@ export class Container extends React.Component {
     let authenticatedSection;
     if (isAuthenticated) {
       authenticatedSection = (
-        <Form exportImage={exportImage} />
+        <Form exportImage={exportImage} exportStatus={exportStatus}/>
       );
     } else {
       authenticatedSection = <Facebook />;
@@ -105,6 +105,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.get('isAuthenticated'),
+  exportStatus: state.dronedeploy.exportStatus
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(toJS(Container));
