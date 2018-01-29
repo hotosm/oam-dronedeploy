@@ -1,5 +1,5 @@
 import * as types from '../constants/action_types';
-import { succeeded, none } from '../constants/exportStatus';
+import { succeeded, none, failed } from '../constants/exportStatus';
 
 const initialState = {
   dronedeployApi: null,
@@ -15,6 +15,10 @@ export default function dronedeploy(state = initialState, action) {
 
     case types.EXPORT_IMAGE_SUCCEEDED: {
       return Object.assign({}, state, { exportStatus: succeeded });
+    }
+
+    case types.EXPORT_IMAGE_FAILED: {
+      return Object.assign({}, state, { exportStatus: failed });
     }
 
     default:

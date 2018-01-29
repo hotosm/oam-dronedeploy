@@ -10,6 +10,7 @@ import { checkTokenStatus } from '../actions/authActions';
 import setDronedeployAPI, { exportImage as exportImageAction }
   from '../actions/droneDeployActions';
 import Form from './Form';
+import ExportStatus from './ExportStatus';
 
 export class Container extends React.Component {
   constructor(props) {
@@ -43,7 +44,10 @@ export class Container extends React.Component {
     let authenticatedSection;
     if (isAuthenticated) {
       authenticatedSection = (
-        <Form exportImage={exportImage} exportStatus={exportStatus}/>
+        <div>
+          <Form exportImage={exportImage} exportStatus={exportStatus} />
+          <ExportStatus exportStatus={exportStatus} />
+        </div>
       );
     } else {
       authenticatedSection = <Facebook />;
@@ -88,7 +92,8 @@ Container.propTypes = {
   isAuthenticated: propTypes.bool.isRequired,
   checkTokenStatus: propTypes.func.isRequired,
   exportImage: propTypes.func.isRequired,
-  setDronedeployAPI: propTypes.func.isRequired
+  setDronedeployAPI: propTypes.func.isRequired,
+  exportStatus: propTypes.oneOf(['succeeded', 'failed', 'none']).isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
