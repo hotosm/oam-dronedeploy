@@ -16,6 +16,12 @@ A Facebook App Id.
 FACEBOOK_APP_ID=yourAppId
 ```
 
+A Google Client Id
+
+```
+GOOGLE_CLIENT_ID=yourClientId
+```
+
 The OAM Catalog API endpoint
 
 ```

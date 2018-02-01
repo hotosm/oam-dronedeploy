@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { toJS } from './toJS';
 import Facebook from './Facebook';
+import Google from './Google';
 import { getToken, setToken } from '../util/authUtils';
 import { checkTokenStatus } from '../actions/authActions';
 import setDronedeployAPI, { exportImage as exportImageAction }
@@ -50,7 +51,12 @@ export class Container extends React.Component {
         </div>
       );
     } else {
-      authenticatedSection = <Facebook />;
+      authenticatedSection = (
+        <div>
+          <Facebook />
+          <Google />
+        </div>
+      );
     }
     return (
       <div className="container expand-container">
