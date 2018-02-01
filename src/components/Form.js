@@ -40,7 +40,7 @@ class Form extends React.Component {
       <div>
         <div className="row">
           <div className="col-4">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Export your imagery to OpenAerialMap. Provide additional details below to contribute your imagery. License and metadata can be updated on your user account on openaerialmap.org.</p>
           </div>
         </div>
         <div className="row">
