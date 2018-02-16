@@ -10,7 +10,7 @@ const ExportStatus = (props) => {
   });
 
   const message = props.exportStatus === succeeded ?
-    'Export sent.  Thanks for your support' : 'Export failed';
+    'Export sent. Thank you for contributing.' : 'Export failed';
 
   return (
     <div className="row">
